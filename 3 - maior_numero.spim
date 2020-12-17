@@ -1,0 +1,33 @@
+	.data
+	Pula: .asciiz "\n"
+	.text	
+main:
+	li $v0,5		#Lê um inteiro
+	syscall
+	move $t0, $v0		#Guarda o inteiro no registrador
+	add $t1, $zero, $zero	#Auxiliar para um futuro Loop
+loop:
+	beq $t1, $t0, exit	#fim do laço? Se sim, exit
+	addi $t1, $t1, 1	#aux para o laço
+	li $v0,5		#Lé o número
+	syscall
+	move $t2, $v0		#Guarda em t2
+	beq $t1, 1, guarda_numero	#Verifica se é o primeiro número
+	slt $t4, $t2, $a0	#Se a0 > t2 = 1, senão 0 
+	beq $t4, 1, loop	#Verifica se t4 eh maior que 1
+	move $a0, $t2		#guarda o numero maior em a0	
+	
+guarda_numero:
+	move $a0, $t2		#Guarda t2 em t3
+	j loop			#volta para o Loop
+exit:
+	li $v0,1		#imprime o resultado
+	syscall
+	li $v0, 4		#imprime o resultado
+    	la $a0, Pula		#quebra de linha para o CDMOJ
+    	syscall
+	li $v0, 10		#finaliza o programa
+ 	syscall
+ 	jr $ra			#return 0
+	
+	
